@@ -60,7 +60,7 @@ extension Collection where Element == PlayingCard {
             
             let flushes = suitDict.values.filter({ $0.count >= 5 })
             
-            return flushes
+            return flushes.isEmpty ? nil : flushes
             
         case .straight:
             
@@ -83,7 +83,7 @@ extension Collection where Element == PlayingCard {
                 
                 if !(isPreviousValue || isSameValue) {
                     
-                    if j - i - repeats >= 4 {
+                    if j - i - repeats >= 5 {
                         straights.append(Array(sortedCards[i ..< j]))
                     }
                     
@@ -100,9 +100,9 @@ extension Collection where Element == PlayingCard {
                 
             }
             
-            if j - i - repeats >= 4 {
+            if j - i - repeats >= 5 {
                 straights.append(Array(sortedCards[i ..< j]))
-            } else if j - i - repeats >= 3 && sortedCards[j - 1].value == .two && !aces.isEmpty {
+            } else if j - i - repeats >= 4 && sortedCards[j - 1].value == .two && !aces.isEmpty {
                 straights.append(Array(sortedCards[i ..< j]) + aces)
             }
             
@@ -113,8 +113,7 @@ extension Collection where Element == PlayingCard {
             guard let straights = self.cardsSatisfyingNonValueMultiples(for: .straight), let flushes = self.cardsSatisfyingNonValueMultiples(for: .flush) else {
                 return nil
             }
-            // Js 10s 10h 9s 8s 7s 6s <- straight
-            // As  Js 10s 9s 8s 7s 6s <- flush
+            
             var straightFlushes: [[PlayingCard]] = []
             
             for flush in flushes {

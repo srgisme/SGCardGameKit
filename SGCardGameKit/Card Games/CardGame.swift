@@ -24,10 +24,6 @@ public protocol CardGame: AnyObject {
     var deck: Stack<PlayingCard> { get set }
     var players: [CardPlayer] { get set }
     
-    init(deck: Stack<PlayingCard>, players: [CardPlayer])
-    
-    func dealToPlayers() throws
-    
 }
 
 extension Stack where T == PlayingCard {
@@ -44,6 +40,8 @@ extension Stack where T == PlayingCard {
             }
             
         }
+        
+        self.shuffle()
         
     }
     

@@ -6,8 +6,6 @@ public enum PlayerStatus {
 
 public protocol CardPlayer: AnyObject {
     
-    init(holeCards: Set<PlayingCard>)
-    
     var status: PlayerStatus { get set }
     var holeCards: Set<PlayingCard> { get set }
     

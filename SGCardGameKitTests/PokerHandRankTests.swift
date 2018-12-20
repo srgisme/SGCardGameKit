@@ -1,5 +1,5 @@
 //
-//  SGCardGameKitTests.swift
+//  PokerHandRankTests.swift
 //  SGCardGameKitTests
 //
 //  Created by Scott Gorden on 12/19/18.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import SGCardGameKit
 
-class SGCardGameKitTests: XCTestCase {
+class PokerHandRankTests: XCTestCase {
 
     var cards: [PlayingCard] = []
     
@@ -67,10 +67,10 @@ class SGCardGameKitTests: XCTestCase {
             // Put the code you want to measure the time of here.
         }
     }
-
+    
 }
 
-extension SGCardGameKitTests {
+extension PokerHandRankTests {
     
     private func test(rank: PokerHandRank) {
         
