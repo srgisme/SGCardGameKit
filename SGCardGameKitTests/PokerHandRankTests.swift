@@ -125,6 +125,24 @@ extension PokerHandRankTests {
                      PlayingCard(suit: .diamonds, value: .ten),
                      PlayingCard(suit: .spades, value: .nine)]
             
+            let handRankRegular = self.cards.rank()!
+            print(handRankRegular.cards)
+            XCTAssert(handRankRegular.rank == rank, "rank should be \(rank) but was instead \(handRankRegular.rank)")
+            
+            // test Ace low straight
+            // A K J 5 4 3 2
+            cards = [PlayingCard(suit: .spades, value: .ace),
+                     PlayingCard(suit: .clubs, value: .two),
+                     PlayingCard(suit: .diamonds, value: .five),
+                     PlayingCard(suit: .hearts, value: .jack),
+                     PlayingCard(suit: .spades, value: .king),
+                     PlayingCard(suit: .diamonds, value: .four),
+                     PlayingCard(suit: .spades, value: .three)]
+            
+            let handRankAceLow = self.cards.rank()!
+            print(handRankAceLow.cards)
+            XCTAssert(handRankAceLow.rank == rank, "rank should be \(rank) but was instead \(handRankAceLow.rank)")
+            
         case .flush:
             
             cards = [PlayingCard(suit: .spades, value: .ten),

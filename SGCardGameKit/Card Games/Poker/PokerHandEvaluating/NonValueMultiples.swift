@@ -72,6 +72,10 @@ extension Collection where Element == PlayingCard {
             var straights: [[PlayingCard]] = []
             var aces: [PlayingCard] = []
             
+            if sortedCards[0].value == .ace {
+                aces.append(sortedCards[0])
+            }
+            
             while j < sortedCards.count {
                 
                 if sortedCards[j].value == .ace {
