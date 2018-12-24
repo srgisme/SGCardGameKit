@@ -49,7 +49,15 @@ extension TexasHoldem {
                 }
                 
                 for i in 0 ..< 2 * self.players.count {
-                    self.players[(i + self.dealerIndex) % self.players.count].holeCards.insert(self.deck.pop()!)
+                    
+                    let player = self.players[(i + self.dealerIndex) % self.players.count]
+                    
+                    guard player.status == .inCurrentHand else {
+                        continue
+                    }
+                    
+                    player.holeCards.insert(self.deck.pop()!)
+                    
                 }
                 
             } catch let error {
@@ -84,6 +92,10 @@ extension TexasHoldem {
         var winningPlayers: [CardPlayer] = []
         
         self.players.forEach { (player) in
+            
+            guard player.status == .inCurrentHand else {
+                return
+            }
             
             guard let currentWinningPlayer = winningPlayers.last, let currentWinningRank = (currentWinningPlayer.holeCards + community).rank() else {
                 winningPlayers.append(player)

@@ -28,7 +28,7 @@ class PokerDealingTests: XCTestCase {
     
     class TexasHoldemPlayer: CardPlayer {
         
-        var status: PlayerStatus
+        var status: CardPlayerHandStatus
         var holeCards: Set<PlayingCard> = []
         weak var game: CardGame?
         
@@ -49,6 +49,7 @@ class PokerDealingTests: XCTestCase {
         for _ in 0 ..< 9 {
             
             let player = TexasHoldemPlayer()
+            player.status = Int.random(in: 0 ... 1) == 0 ? .inCurrentHand : .outOfCurrentHand
             player.game = self.game
             self.game.players.append(player)
             
@@ -94,18 +95,19 @@ extension PokerDealingTests {
             do {
                 try self.game.deal(round)
                 
-                let allPlayersHaveTwoCards = self.game.players.reduce(into: true) { (playersHaveTwoCards, currentPlayer) in
+                var allPlayersHaveCorrectNumberOfCards = true
+                
+                for player in self.game.players {
                     
-                    guard playersHaveTwoCards else {
-                        playersHaveTwoCards = false
-                        return
+                    guard allPlayersHaveCorrectNumberOfCards else {
+                        break
                     }
                     
-                    playersHaveTwoCards = currentPlayer.holeCards.count == 2
+                    allPlayersHaveCorrectNumberOfCards = player.status == .inCurrentHand ? player.holeCards.count == 2 : player.holeCards.count == 0
                     
                 }
                 
-                XCTAssert(allPlayersHaveTwoCards, "Players do not have two cards after dealing the cards preflop")
+                XCTAssert(allPlayersHaveCorrectNumberOfCards, "Players do not have the correct number of cards after dealing the cards preflop.")
                 XCTAssert(self.game.community.isEmpty, "Community is not empty after dealing preflop.")
             } catch let error {
                 XCTFail("\(error)")

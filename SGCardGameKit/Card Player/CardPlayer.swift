@@ -1,12 +1,12 @@
 import Foundation
 
-public enum PlayerStatus {
-    case inCurrentHand, outOfCurrentHand
+public enum CardPlayerHandStatus {
+    case inCurrentHand, outOfCurrentHand, sittingOut
 }
 
 public protocol CardPlayer: AnyObject {
     
-    var status: PlayerStatus { get set }
+    var status: CardPlayerHandStatus { get set }
     var holeCards: Set<PlayingCard> { get set }
     
     func hand() -> (rank: PokerHandRank, cards: [PlayingCard])?
