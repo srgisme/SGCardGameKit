@@ -28,7 +28,7 @@ public protocol CardGame: AnyObject {
 
 extension Stack where T == PlayingCard {
     
-    init() {
+    public init() {
         
         for suit in [PlayingCard.Suit.clubs, PlayingCard.Suit.diamonds, PlayingCard.Suit.hearts, PlayingCard.Suit.spades] {
             

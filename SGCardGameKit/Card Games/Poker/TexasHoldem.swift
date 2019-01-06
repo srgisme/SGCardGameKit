@@ -32,7 +32,7 @@ public protocol TexasHoldem: CardGame {
 
 extension TexasHoldem {
     
-    func deal(_ round: Round) throws {
+    public func deal(_ round: Round) throws {
         
         switch round {
             

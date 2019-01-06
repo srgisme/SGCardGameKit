@@ -16,7 +16,7 @@ public struct Stack<T> {
         return self.values.count
     }
     
-    init(elements: [T]) {
+    public init(elements: [T]) {
         
         guard let firstElement = elements.first else {
             self.values = []
