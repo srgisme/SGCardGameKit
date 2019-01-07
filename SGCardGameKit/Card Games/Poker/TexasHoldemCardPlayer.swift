@@ -15,7 +15,7 @@ public protocol TexasHoldemCardPlayer: CardPlayer {
 extension TexasHoldemCardPlayer {
     
     public func hand() -> PokerHandRank? {
-        return (holeCards + ((self.game as? TexasHoldem)?.community ?? [])).rank()
+        return (holeCards + ((self.game as? TexasHoldem)?.community ?? [])).pokerHand()
     }
     
 }

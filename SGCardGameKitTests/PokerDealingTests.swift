@@ -17,6 +17,10 @@ class PokerDealingTests: XCTestCase {
             
         }
         
+        func cardPlayer(_ cardPlayer: CardPlayer, cardWasRemovedFromHoleCards card: PlayingCard) {
+            
+        }
+        
         var dealerIndex: Int = 0
         var blinds: (small: UInt, big: UInt) = (1, 2)
         var ante: UInt = 0
@@ -68,7 +72,7 @@ class PokerDealingTests: XCTestCase {
         self.testDeal(.turn)
         self.testDeal(.river)
         
-        let winners = self.game.winners() as! [TexasHoldemCardPlayer]
+        let winners = self.game.winners() 
         
         print("Players: \(self.game.players.map({ $0.holeCards }))")
         print("Community: \(self.game.community)")

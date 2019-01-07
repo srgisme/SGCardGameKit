@@ -20,6 +20,7 @@
 		628E95FC21CAA0CF00A48E55 /* PokerHandRankTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 628E95FB21CAA0CF00A48E55 /* PokerHandRankTests.swift */; };
 		628E95FE21CAA1ED00A48E55 /* PokerDealingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 628E95FD21CAA1ED00A48E55 /* PokerDealingTests.swift */; };
 		62CDA1E321E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CDA1E221E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift */; };
+		62CDA1E821E3DC2900E1E8F1 /* TexasHoldemSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CDA1E721E3DC2900E1E8F1 /* TexasHoldemSetup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		628E95FB21CAA0CF00A48E55 /* PokerHandRankTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokerHandRankTests.swift; sourceTree = "<group>"; };
 		628E95FD21CAA1ED00A48E55 /* PokerDealingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerDealingTests.swift; sourceTree = "<group>"; };
 		62CDA1E221E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexasHoldemCardPlayer.swift; sourceTree = "<group>"; };
+		62CDA1E721E3DC2900E1E8F1 /* TexasHoldemSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexasHoldemSetup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 			isa = PBXGroup;
 			children = (
 				628E95EA21CA32CA00A48E55 /* TexasHoldem.swift */,
+				62CDA1E721E3DC2900E1E8F1 /* TexasHoldemSetup.swift */,
 				62CDA1E221E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift */,
 				628E95EB21CA32CA00A48E55 /* PokerHandRank */,
 			);
@@ -268,6 +271,7 @@
 				628E95F621CA32CA00A48E55 /* ValueMultiples.swift in Sources */,
 				628E95F821CA32CA00A48E55 /* CardPlayer.swift in Sources */,
 				628E95F121CA32CA00A48E55 /* Stack.swift in Sources */,
+				62CDA1E821E3DC2900E1E8F1 /* TexasHoldemSetup.swift in Sources */,
 				628E95F421CA32CA00A48E55 /* TexasHoldem.swift in Sources */,
 				628E95F721CA32CA00A48E55 /* NonValueMultiples.swift in Sources */,
 				628E95F521CA32CA00A48E55 /* PokerHandRank.swift in Sources */,

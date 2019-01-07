@@ -83,7 +83,7 @@ public enum PokerHandRank: CustomStringConvertible, Comparable {
         
     }
     
-    public var value: Int {
+    var value: Int {
         
         switch self {
         case .highCard: return 1
@@ -107,7 +107,7 @@ extension Collection where Element == PlayingCard {
     /// This method produces the best 5-card poker hand from the given cards.
     /// - Important: This method may not produce the expected return value on collections with 10 or more elements.
     /// - Returns: an optional tuple containing the hand rank and cards making up the hand. If a 5-card hand can't be made, this method returns nil.
-    func rank() -> PokerHandRank? {
+    func pokerHand() -> PokerHandRank? {
         
         guard self.count >= 5 else { return nil }
         

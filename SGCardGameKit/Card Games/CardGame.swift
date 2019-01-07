@@ -1,17 +1,5 @@
 import Foundation
 
-enum CardGameError: Error, CustomStringConvertible {
-    
-    case notEnoughCards
-    
-    var description: String {
-        switch self {
-        case .notEnoughCards: return "Given the number of players and cards needed to play this game, there are not enough cards in the deck."
-        }
-    }
-    
-}
-
 public protocol CardGameDelegate: AnyObject {
     
     func cardGameDidStart(_ cardGame: CardGame)
@@ -23,6 +11,8 @@ public protocol CardGame: AnyObject {
     
     var deck: Stack<PlayingCard> { get set }
     var players: [CardPlayer] { get set }
+    
+    func start() throws
     
 }
 

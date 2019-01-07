@@ -6,6 +6,7 @@ public enum CardPlayerHandStatus {
 
 public protocol CardPlayerDelegate: AnyObject {
     func cardPlayer(_ cardPlayer: CardPlayer, didReceive card: PlayingCard)
+    func cardPlayer(_ cardPlayer: CardPlayer, cardWasRemovedFromHoleCards card: PlayingCard)
 }
 
 public protocol CardPlayer: AnyObject {

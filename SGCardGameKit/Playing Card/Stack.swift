@@ -47,6 +47,10 @@ public struct Stack<T> {
         return self.values.last
     }
     
+    public mutating func removeAll() {
+        self.values.removeAll()
+    }
+    
 }
 
 extension Stack where T == PlayingCard {

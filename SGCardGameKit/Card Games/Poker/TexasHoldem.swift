@@ -12,11 +12,26 @@ public enum Round {
     case preflop, flop, turn, river
 }
 
+enum TexasHoldemCardGameError: Error, CustomStringConvertible {
+    
+    case notEnoughCards, notEnoughPlayers(Int), tooManyPlayers(Int)
+    
+    var description: String {
+        switch self {
+        case .notEnoughCards: return "Given the number of players and cards needed to play this game, there are not enough cards in the deck."
+        case .notEnoughPlayers(let playerCount): return "There are not enough players in this game (\(playerCount)). You must have at least 2 players to begin the game."
+        case .tooManyPlayers(let playerCount): return "There are too many players in this game (\(playerCount)). You must have 10 players or less to begin the game."
+        }
+    }
+    
+}
+
 public protocol TexasHoldemDelegate: CardGameDelegate {
+    func texasHoldem(_ texasHoldem: TexasHoldem, dealerIndexDidChange dealerIndex: Int)
     func texasHoldem(_ texasHoldem: TexasHoldem, didDeal round: Round)
 }
 
-public protocol TexasHoldem: CardGame {
+public protocol TexasHoldem: CardGame, TexasHoldemSetup {
     
     var dealerIndex: Int { get set }
     var blinds: (small: UInt, big: UInt) { get }
@@ -25,26 +40,47 @@ public protocol TexasHoldem: CardGame {
     var community: [PlayingCard] { get set }
     var delegate: TexasHoldemDelegate? { get }
     
-    func winners() -> [CardPlayer]
-    func deal(_ round: Round) throws
+    func winners() -> [TexasHoldemCardPlayer]
+    func deal(_ round: Round)
     
 }
 
 extension TexasHoldem {
     
-    public func deal(_ round: Round) throws {
+    public func start() throws {
+        
+        guard self.players.count >= 2 else {
+            let error = TexasHoldemCardGameError.notEnoughPlayers(self.players.count)
+            print(error)
+            throw error
+        }
+        
+        guard self.players.count <= 10 else {
+            let error = TexasHoldemCardGameError.tooManyPlayers(self.players.count)
+            print(error)
+            throw error
+        }
+        
+        self.dealerIndex = self.determineDealerIndex()
+        
+        guard self.deck.count >= 8 + 2 * self.players.count else {
+            let error = TexasHoldemCardGameError.notEnoughCards
+            print(error)
+            throw error
+        }
+        
+        self.deck = Stack<PlayingCard>()
+        self.deck.shuffle()
+        
+        self.deal(.preflop)
+        
+    }
+    
+    public func deal(_ round: Round) {
         
         switch round {
             
         case .preflop:
-            
-            let numberOfCardsNeeded = 8 + 2 * self.players.count
-            
-            guard self.deck.count >= numberOfCardsNeeded else {
-                let error = CardGameError.notEnoughCards
-                print(error)
-                throw error
-            }
             
             for i in 0 ..< 2 * self.players.count {
                 
@@ -79,7 +115,7 @@ extension TexasHoldem {
         
     }
     
-    public func winners() -> [CardPlayer] {
+    public func winners() -> [TexasHoldemCardPlayer] {
         
         guard community.count == 5 else {
             return []

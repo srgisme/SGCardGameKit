@@ -118,7 +118,7 @@ extension PokerHandRankTests {
                      PlayingCard(suit: .diamonds, value: .ten),
                      PlayingCard(suit: .spades, value: .nine)]
             
-            let handRankRegular = self.cards.rank()!
+            let handRankRegular = self.cards.pokerHand()!
             XCTAssert(handRankRegular.description == rank.description, "rank should be \(rank) but was instead \(handRankRegular)")
             
             // test Ace low straight
@@ -131,7 +131,7 @@ extension PokerHandRankTests {
                      PlayingCard(suit: .diamonds, value: .four),
                      PlayingCard(suit: .spades, value: .three)]
             
-            let handRankAceLow = self.cards.rank()!
+            let handRankAceLow = self.cards.pokerHand()!
             XCTAssert(handRankAceLow.description == rank.description, "rank should be \(rank) but was instead \(handRankAceLow)")
             
         case .flush:
@@ -186,7 +186,7 @@ extension PokerHandRankTests {
             
         }
         
-        let handRank = self.cards.rank()!
+        let handRank = self.cards.pokerHand()!
         XCTAssert(handRank.description == rank.description, "rank should be \(rank) but was instead \(handRank)")
         
     }
