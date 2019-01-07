@@ -38,30 +38,26 @@ extension TexasHoldem {
             
         case .preflop:
             
-            self.delegate?.cardGameDidStart(self)
+            let numberOfCardsNeeded = 8 + 2 * self.players.count
             
-            do {
-                
-                let numberOfCardsNeeded = 8 + 2 * self.players.count
-                
-                guard self.deck.count >= numberOfCardsNeeded else {
-                    throw CardGameError.notEnoughCards
-                }
-                
-                for i in 0 ..< 2 * self.players.count {
-                    
-                    let player = self.players[(i + self.dealerIndex) % self.players.count]
-                    
-                    guard player.status == .inCurrentHand else {
-                        continue
-                    }
-                    
-                    player.holeCards.insert(self.deck.pop()!)
-                    
-                }
-                
-            } catch let error {
+            guard self.deck.count >= numberOfCardsNeeded else {
+                let error = CardGameError.notEnoughCards
                 print(error)
+                throw error
+            }
+            
+            for i in 0 ..< 2 * self.players.count {
+                
+                let player = self.players[(i + self.dealerIndex) % self.players.count]
+                
+                guard player.status == .inCurrentHand else {
+                    continue
+                }
+                
+                let newHoleCard = self.deck.pop()!
+                player.holeCards.insert(newHoleCard)
+                player.delegate?.cardPlayer(player, didReceive: newHoleCard)
+                
             }
             
         case .flop:
@@ -89,25 +85,23 @@ extension TexasHoldem {
             return []
         }
         
-        var winningPlayers: [CardPlayer] = []
+        var winningPlayers: [TexasHoldemCardPlayer] = []
         
-        self.players.forEach { (player) in
+        (self.players as? [TexasHoldemCardPlayer])?.forEach { (player) in
             
-            guard player.status == .inCurrentHand else {
+            guard player.status == .inCurrentHand, let playerHandRank = player.hand() else {
                 return
             }
             
-            guard let currentWinningPlayer = winningPlayers.last, let currentWinningRank = (currentWinningPlayer.holeCards + community).rank() else {
+            guard let currentWinningRank = winningPlayers.last?.hand() else {
                 winningPlayers.append(player)
                 return
             }
             
-            guard let playerHandRank = (player.holeCards + community).rank() else {
-                return
-            }
-            
             if playerHandRank > currentWinningRank {
+                
                 winningPlayers = [player]
+                
             } else if playerHandRank == currentWinningRank {
                 
                 winningPlayers.append(player)
@@ -116,7 +110,6 @@ extension TexasHoldem {
             
         }
         
-        self.delegate?.cardGameDidEnd(self)
         return winningPlayers
         
     }

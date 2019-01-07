@@ -11,7 +11,11 @@ import XCTest
 
 class PokerDealingTests: XCTestCase {
 
-    class TexasHoldemPokerGame: TexasHoldem {
+    class TexasHoldemPokerGame: TexasHoldem, CardPlayerDelegate {
+        
+        func cardPlayer(_ cardPlayer: CardPlayer, didReceive card: PlayingCard) {
+            
+        }
         
         var dealerIndex: Int = 0
         var blinds: (small: UInt, big: UInt) = (1, 2)
@@ -26,18 +30,16 @@ class PokerDealingTests: XCTestCase {
         
     }
     
-    class TexasHoldemPlayer: CardPlayer {
+    class TexasHoldemPlayer: TexasHoldemCardPlayer {
         
         var status: CardPlayerHandStatus
         var holeCards: Set<PlayingCard> = []
+        
+        weak var delegate: CardPlayerDelegate?
         weak var game: CardGame?
         
         init() {
             self.status = .inCurrentHand
-        }
-        
-        func hand() -> PokerHandRank? {
-            return (holeCards + ((self.game as? TexasHoldem)?.community ?? [])).rank()
         }
         
     }
@@ -50,8 +52,10 @@ class PokerDealingTests: XCTestCase {
             
             let player = TexasHoldemPlayer()
             player.status = Int.random(in: 0 ... 1) == 0 ? .inCurrentHand : .outOfCurrentHand
-            player.game = self.game
+            
             self.game.players.append(player)
+            player.game = self.game
+            player.delegate = self.game
             
         }
         
@@ -64,7 +68,7 @@ class PokerDealingTests: XCTestCase {
         self.testDeal(.turn)
         self.testDeal(.river)
         
-        let winners = self.game.winners()
+        let winners = self.game.winners() as! [TexasHoldemCardPlayer]
         
         print("Players: \(self.game.players.map({ $0.holeCards }))")
         print("Community: \(self.game.community)")
