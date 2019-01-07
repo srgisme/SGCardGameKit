@@ -9,6 +9,6 @@ public protocol CardPlayer: AnyObject {
     var status: CardPlayerHandStatus { get set }
     var holeCards: Set<PlayingCard> { get set }
     
-    func hand() -> (rank: PokerHandRank, cards: [PlayingCard])?
+    func hand() -> PokerHandRank?
     
 }

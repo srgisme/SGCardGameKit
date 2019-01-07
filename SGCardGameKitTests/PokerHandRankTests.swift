@@ -22,50 +22,43 @@ class PokerHandRankTests: XCTestCase {
     }
     
     func testHighCard() {
-        self.test(rank: .highCard)
+        self.test(rank: .highCard([]))
     }
     
     func testPair() {
-        self.test(rank: .pair)
+        self.test(rank: .pair([]))
     }
     
     func testTwoPair() {
-        self.test(rank: .twoPair)
+        self.test(rank: .twoPair([]))
     }
     
     func testThreeOfaKind() {
-        self.test(rank: .threeOfaKind)
+        self.test(rank: .threeOfaKind([]))
     }
     
     func testStraight() {
-        self.test(rank: .straight)
+        self.test(rank: .straight([]))
     }
     
     func testFlush() {
-        self.test(rank: .flush)
+        self.test(rank: .flush([]))
     }
     
     func testFullHouse() {
-        self.test(rank: .fullHouse)
+        self.test(rank: .fullHouse([]))
     }
     
     func testFourOfaKind() {
-        self.test(rank: .fourOfaKind)
+        self.test(rank: .fourOfaKind([]))
     }
     
     func testStraightFlush() {
-        self.test(rank: .straightFlush)
+        self.test(rank: .straightFlush([]))
     }
     
     func testRoyalFlush() {
-        self.test(rank: .royalFlush)
-    }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+        self.test(rank: .royalFlush([]))
     }
     
 }
@@ -126,22 +119,20 @@ extension PokerHandRankTests {
                      PlayingCard(suit: .spades, value: .nine)]
             
             let handRankRegular = self.cards.rank()!
-            print(handRankRegular.cards)
-            XCTAssert(handRankRegular.rank == rank, "rank should be \(rank) but was instead \(handRankRegular.rank)")
+            XCTAssert(handRankRegular.description == rank.description, "rank should be \(rank) but was instead \(handRankRegular)")
             
             // test Ace low straight
-            // A K J 5 4 3 2
+            // A J J 5 4 3 2
             cards = [PlayingCard(suit: .spades, value: .ace),
                      PlayingCard(suit: .clubs, value: .two),
                      PlayingCard(suit: .diamonds, value: .five),
                      PlayingCard(suit: .hearts, value: .jack),
-                     PlayingCard(suit: .spades, value: .king),
+                     PlayingCard(suit: .spades, value: .jack),
                      PlayingCard(suit: .diamonds, value: .four),
                      PlayingCard(suit: .spades, value: .three)]
             
             let handRankAceLow = self.cards.rank()!
-            print(handRankAceLow.cards)
-            XCTAssert(handRankAceLow.rank == rank, "rank should be \(rank) but was instead \(handRankAceLow.rank)")
+            XCTAssert(handRankAceLow.description == rank.description, "rank should be \(rank) but was instead \(handRankAceLow)")
             
         case .flush:
             
@@ -196,8 +187,7 @@ extension PokerHandRankTests {
         }
         
         let handRank = self.cards.rank()!
-        print(handRank.cards)
-        XCTAssert(handRank.rank == rank, "rank should be \(rank) but was instead \(handRank.rank)")
+        XCTAssert(handRank.description == rank.description, "rank should be \(rank) but was instead \(handRank)")
         
     }
     

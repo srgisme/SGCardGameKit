@@ -10,13 +10,13 @@ import Foundation
 
 extension Collection where Element == PlayingCard {
     
-    func handRankForNonValueMultiples() -> (rank: PokerHandRank, cards: [PlayingCard]) {
+    func handRankForNonValueMultiples() -> PokerHandRank {
         
-        if let royalFlush = self.cardsSatisfyingNonValueMultiples(for: .royalFlush)?.first {
-            return (.royalFlush, royalFlush)
-        } else if let straightFlush = self.cardsSatisfyingNonValueMultiples(for: .straightFlush)?.first {
-            return (.straightFlush, Array(straightFlush[0 ..< 5]))
-        } else if let flush = self.cardsSatisfyingNonValueMultiples(for: .flush)?.max(by: { (flush1, flush2) -> Bool in
+        if let royalFlush = self.cardsSatisfyingNonValueMultiples(for: .royalFlush([]))?.first {
+            return .royalFlush(royalFlush)
+        } else if let straightFlush = self.cardsSatisfyingNonValueMultiples(for: .straightFlush([]))?.first {
+            return .straightFlush(Array(straightFlush[0 ..< 5]))
+        } else if let flush = self.cardsSatisfyingNonValueMultiples(for: .flush([]))?.max(by: { (flush1, flush2) -> Bool in
             
             for i in 0 ..< Swift.min(flush1.count, flush2.count) {
                 
@@ -32,13 +32,13 @@ extension Collection where Element == PlayingCard {
             
         }) {
             
-            return (.flush, Array(flush[0 ..< 5]))
+            return .flush(Array(flush[0 ..< 5]))
             
-        } else if var straight = self.cardsSatisfyingNonValueMultiples(for: .straight)?.first {
+        } else if var straight = self.cardsSatisfyingNonValueMultiples(for: .straight([]))?.first {
             straight.removeDuplicates()
-            return (.straight, Array(straight[0 ..< 5]))
+            return .straight(Array(straight[0 ..< 5]))
         } else {
-            return (.highCard, self.kickers(forIncompleteMultiples: []))
+            return .highCard(self.kickers(forIncompleteMultiples: []))
         }
         
     }
@@ -50,7 +50,7 @@ extension Collection where Element == PlayingCard {
         }
         
         switch handRank {
-        case .flush:
+        case .flush(_):
             
             var suitDict: [PlayingCard.Suit : [PlayingCard]] = [:]
             
@@ -62,7 +62,7 @@ extension Collection where Element == PlayingCard {
             
             return flushes.isEmpty ? nil : flushes
             
-        case .straight:
+        case .straight(_):
             
             let sortedCards = self.sorted(by: >)
             
@@ -112,9 +112,9 @@ extension Collection where Element == PlayingCard {
             
             return straights.isEmpty ? nil : straights
             
-        case .straightFlush:
+        case .straightFlush(_):
             
-            guard let straights = self.cardsSatisfyingNonValueMultiples(for: .straight), let flushes = self.cardsSatisfyingNonValueMultiples(for: .flush) else {
+            guard let straights = self.cardsSatisfyingNonValueMultiples(for: .straight([])), let flushes = self.cardsSatisfyingNonValueMultiples(for: .flush([])) else {
                 return nil
             }
             
@@ -172,9 +172,9 @@ extension Collection where Element == PlayingCard {
             
             return straightFlushes.isEmpty ? nil : straightFlushes
             
-        case .royalFlush:
+        case .royalFlush(_):
             
-            guard let royalFlushes = self.cardsSatisfyingNonValueMultiples(for: .straightFlush)?.map({ $0[0 ..< 5] }).filter({ (straightFlush) -> Bool in
+            guard let royalFlushes = self.cardsSatisfyingNonValueMultiples(for: .straightFlush([]))?.map({ $0[0 ..< 5] }).filter({ (straightFlush) -> Bool in
                 straightFlush.map({ $0.value }) == [.ace, .king, .queen, .jack, .ten]
             }) else {
                 return nil

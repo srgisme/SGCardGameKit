@@ -36,7 +36,7 @@ class PokerDealingTests: XCTestCase {
             self.status = .inCurrentHand
         }
         
-        func hand() -> (rank: PokerHandRank, cards: [PlayingCard])? {
+        func hand() -> PokerHandRank? {
             return (holeCards + ((self.game as? TexasHoldem)?.community ?? [])).rank()
         }
         
@@ -68,19 +68,12 @@ class PokerDealingTests: XCTestCase {
         
         print("Players: \(self.game.players.map({ $0.holeCards }))")
         print("Community: \(self.game.community)")
-        print("Winners: \(winners.map({ $0.holeCards }))")
+        print("Winners: \(winners.map({ $0.holeCards })), \(winners.map({ $0.hand()!.description }))")
         
     }
     
     override func tearDown() {
         
-    }
-
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
     }
 
 }

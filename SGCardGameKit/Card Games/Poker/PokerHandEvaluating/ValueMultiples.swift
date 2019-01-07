@@ -13,7 +13,7 @@ extension Collection where Element == PlayingCard {
     /// This method produces the best 5-card poker hand limited to hands composed of only value multiples (pair, twoPair, threeOfaKind, fullHouse, fourOfaKind)
     ///
     /// - Returns: an optional tuple containing the hand rank and cards making up the hand. If no multiples are found, this method returns nil.
-    func handRankForValueMultiples() -> (rank: PokerHandRank, cards: [PlayingCard])? {
+    func handRankForValueMultiples() -> PokerHandRank? {
         
         guard self.count >= 5 else { return nil }
         
@@ -22,7 +22,7 @@ extension Collection where Element == PlayingCard {
         if let maxFourOfaKind = valueGroups[4]?.first {
             
             let kickers = self.kickers(forIncompleteMultiples: maxFourOfaKind)
-            return (.fourOfaKind, maxFourOfaKind + kickers)
+            return .fourOfaKind(maxFourOfaKind + kickers)
             
         } else if let threeOfAKind = valueGroups[3] {
             
@@ -52,11 +52,11 @@ extension Collection where Element == PlayingCard {
             guard !maxPair.isEmpty else {
                 
                 let kickers = self.kickers(forIncompleteMultiples: hand)
-                return (.threeOfaKind, hand + kickers)
+                return .threeOfaKind(hand + kickers)
                 
             }
             
-            return (.fullHouse, hand + maxPair)
+            return .fullHouse(hand + maxPair)
             
         } else if let pairs = valueGroups[2] {
             
@@ -64,12 +64,12 @@ extension Collection where Element == PlayingCard {
                 
                 let hand = pairs[0] + pairs[1]
                 let kickers = self.kickers(forIncompleteMultiples: hand)
-                return (.twoPair, hand + kickers)
+                return .twoPair(hand + kickers)
                 
             } else {
                 
                 let kickers = self.kickers(forIncompleteMultiples: pairs[0])
-                return (.pair, pairs[0] + kickers)
+                return .pair(pairs[0] + kickers)
                 
             }
             

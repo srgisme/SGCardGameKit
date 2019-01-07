@@ -106,20 +106,9 @@ extension TexasHoldem {
                 return
             }
             
-            if playerHandRank.rank.rawValue > currentWinningRank.rank.rawValue {
+            if playerHandRank > currentWinningRank {
                 winningPlayers = [player]
-            } else if playerHandRank.rank.rawValue == currentWinningRank.rank.rawValue {
-                
-                for i in 0 ..< playerHandRank.cards.count {
-                    
-                    if playerHandRank.cards[i].value.rawValue > currentWinningRank.cards[i].value.rawValue {
-                        winningPlayers = [player]
-                        return
-                    } else if playerHandRank.cards[i].value.rawValue < currentWinningRank.cards[i].value.rawValue {
-                        return
-                    }
-                    
-                }
+            } else if playerHandRank == currentWinningRank {
                 
                 winningPlayers.append(player)
                 
