@@ -9,11 +9,17 @@
 import Foundation
 
 public protocol TexasHoldemSetup {
+    
     var dealerIndex: Int { get set }
     var deck: Stack<PlayingCard> { get set }
     var community: [PlayingCard] { get set }
     var burned: [PlayingCard] { get set }
     var players: [CardPlayer] { get }
+    var setupDelegate: TexasHoldemSetupDelegate? { get }
+    
+    mutating func start() throws
+    mutating func deal(_ round: Round)
+    
 }
 
 enum TexasHoldemSetupError: Error, CustomStringConvertible {
@@ -64,6 +70,74 @@ extension TexasHoldemSetup {
         }
         
         return currentDealerIndex
+        
+    }
+    
+    public mutating func start() throws {
+        
+        guard self.players.count >= 2 else {
+            let error = TexasHoldemSetupError.notEnoughPlayers(self.players.count)
+            print(error)
+            throw error
+        }
+        
+        guard self.players.count <= 10 else {
+            let error = TexasHoldemSetupError.tooManyPlayers(self.players.count)
+            print(error)
+            throw error
+        }
+        
+        self.dealerIndex = self.determineDealerIndex()
+        self.setupDelegate?.texasHoldemSetup(self, dealerDidChange: self.players[self.dealerIndex] as! TexasHoldemCardPlayer)
+        
+        guard self.deck.count >= 8 + 2 * self.players.count else {
+            let error = TexasHoldemSetupError.notEnoughCards
+            print(error)
+            throw error
+        }
+        
+        self.deck = Stack<PlayingCard>()
+        self.deck.shuffle()
+        self.deal(.preflop)
+        
+    }
+    
+    public mutating func deal(_ round: Round) {
+        
+        switch round {
+            
+        case .preflop:
+            
+            for i in 0 ..< 2 * self.players.count {
+                
+                let player = self.players[(i + self.dealerIndex) % self.players.count]
+                
+                guard player.status == .inCurrentHand else {
+                    continue
+                }
+                
+                let newHoleCard = self.deck.pop()!
+                player.holeCards.append(newHoleCard)
+                player.delegate?.cardPlayer(player, didReceive: newHoleCard)
+                
+            }
+            
+        case .flop:
+            
+            self.burned.append(self.deck.pop()!)
+            
+            for _ in 0 ..< 3 {
+                self.community.append(self.deck.pop()!)
+            }
+            
+        case .turn, .river:
+            
+            self.burned.append(self.deck.pop()!)
+            self.community.append(self.deck.pop()!)
+            
+        }
+        
+        self.setupDelegate?.texasHoldemSetup(self, didDeal: round)
         
     }
     

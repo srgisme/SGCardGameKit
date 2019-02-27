@@ -23,7 +23,8 @@ class PokerDealingTests: XCTestCase {
         var community: [PlayingCard] = []
         var burned: [PlayingCard] = []
         
-        var delegate: TexasHoldemDelegate?
+        weak var delegate: TexasHoldemDelegate?
+        weak var setupDelegate: TexasHoldemSetupDelegate?
         
     }
     

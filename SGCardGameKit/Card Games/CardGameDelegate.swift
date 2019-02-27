@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol CardGameDelegate: AnyObject {
+public protocol CardGameDelegate: TexasHoldemDelegate {
     
     func cardGameDidStart(_ cardGame: CardGame)
     func cardGameDidEnd(_ cardGame: CardGame)

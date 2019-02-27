@@ -8,12 +8,10 @@
 
 import Foundation
 
-public protocol TexasHoldemDelegate: CardGameDelegate {
-    func texasHoldem(_ texasHoldem: TexasHoldem, dealerIndexDidChange dealerIndex: Int)
-    func texasHoldem(_ texasHoldem: TexasHoldem, didDeal round: Round)
+public protocol TexasHoldemDelegate: TexasHoldemSetupDelegate {
+    
 }
 
 extension TexasHoldemDelegate {
-    func texasHoldem(_ texasHoldem: TexasHoldem, dealerIndexDidChange dealerIndex: Int) { }
-    func texasHoldem(_ texasHoldem: TexasHoldem, didDeal round: Round) { }
+    
 }
