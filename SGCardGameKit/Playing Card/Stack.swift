@@ -16,23 +16,12 @@ public struct Stack<T> {
         return self.values.count
     }
     
-    public init(elements: [T]) {
-        
-        guard let firstElement = elements.first else {
-            self.values = []
-            return
-        }
-        
-        self.push(firstElement)
-        
-        for i in 1 ..< elements.count {
-            self.push(elements[i])
-        }
-        
-    }
-    
     public var isEmpty: Bool {
         return self.values.isEmpty
+    }
+    
+    public init(capacity: Int) {
+        self.values.reserveCapacity(capacity)
     }
     
     public mutating func pop() -> T? {
@@ -50,10 +39,6 @@ public struct Stack<T> {
     public mutating func removeAll() {
         self.values.removeAll()
     }
-    
-}
-
-extension Stack where T == PlayingCard {
     
     public mutating func shuffle() {
         self.values.shuffle()
