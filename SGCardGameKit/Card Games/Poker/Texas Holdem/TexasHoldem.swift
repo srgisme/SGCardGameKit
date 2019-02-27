@@ -12,25 +12,6 @@ public enum Round {
     case preflop, flop, turn, river
 }
 
-enum TexasHoldemCardGameError: Error, CustomStringConvertible {
-    
-    case notEnoughCards, notEnoughPlayers(Int), tooManyPlayers(Int)
-    
-    var description: String {
-        switch self {
-        case .notEnoughCards: return "Given the number of players and cards needed to play this game, there are not enough cards in the deck."
-        case .notEnoughPlayers(let playerCount): return "There are not enough players in this game (\(playerCount)). You must have at least 2 players to begin the game."
-        case .tooManyPlayers(let playerCount): return "There are too many players in this game (\(playerCount)). You must have 10 players or less to begin the game."
-        }
-    }
-    
-}
-
-public protocol TexasHoldemDelegate: CardGameDelegate {
-    func texasHoldem(_ texasHoldem: TexasHoldem, dealerIndexDidChange dealerIndex: Int)
-    func texasHoldem(_ texasHoldem: TexasHoldem, didDeal round: Round)
-}
-
 public protocol TexasHoldem: CardGame, TexasHoldemSetup {
     
     var dealerIndex: Int { get set }
@@ -38,6 +19,7 @@ public protocol TexasHoldem: CardGame, TexasHoldemSetup {
     var ante: UInt { get }
     var currentPots: (main: UInt, side: [UInt])? { get set }
     var community: [PlayingCard] { get set }
+    var burned: [PlayingCard] { get set }
     var delegate: TexasHoldemDelegate? { get }
     
     func winners() -> [TexasHoldemCardPlayer]
@@ -50,13 +32,13 @@ extension TexasHoldem {
     public func start() throws {
         
         guard self.players.count >= 2 else {
-            let error = TexasHoldemCardGameError.notEnoughPlayers(self.players.count)
+            let error = TexasHoldemSetupError.notEnoughPlayers(self.players.count)
             print(error)
             throw error
         }
         
         guard self.players.count <= 10 else {
-            let error = TexasHoldemCardGameError.tooManyPlayers(self.players.count)
+            let error = TexasHoldemSetupError.tooManyPlayers(self.players.count)
             print(error)
             throw error
         }
@@ -64,7 +46,7 @@ extension TexasHoldem {
         self.dealerIndex = self.determineDealerIndex()
         
         guard self.deck.count >= 8 + 2 * self.players.count else {
-            let error = TexasHoldemCardGameError.notEnoughCards
+            let error = TexasHoldemSetupError.notEnoughCards
             print(error)
             throw error
         }
@@ -91,14 +73,14 @@ extension TexasHoldem {
                 }
                 
                 let newHoleCard = self.deck.pop()!
-                player.holeCards.insert(newHoleCard)
+                player.holeCards.append(newHoleCard)
                 player.delegate?.cardPlayer(player, didReceive: newHoleCard)
                 
             }
             
         case .flop:
             
-            self.deck.pop()
+            self.burned.append(self.deck.pop()!)
             
             for _ in 0 ..< 3 {
                 self.community.append(self.deck.pop()!)
@@ -106,7 +88,7 @@ extension TexasHoldem {
             
         case .turn, .river:
             
-            self.deck.pop()
+            self.burned.append(self.deck.pop()!)
             self.community.append(self.deck.pop()!)
             
         }

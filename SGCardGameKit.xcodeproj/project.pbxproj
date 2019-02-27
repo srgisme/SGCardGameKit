@@ -19,6 +19,9 @@
 		628E95F821CA32CA00A48E55 /* CardPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 628E95F021CA32CA00A48E55 /* CardPlayer.swift */; };
 		628E95FC21CAA0CF00A48E55 /* PokerHandRankTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 628E95FB21CAA0CF00A48E55 /* PokerHandRankTests.swift */; };
 		628E95FE21CAA1ED00A48E55 /* PokerDealingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 628E95FD21CAA1ED00A48E55 /* PokerDealingTests.swift */; };
+		629ED3DB2227048000581F5D /* CardGameDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629ED3DA2227048000581F5D /* CardGameDelegate.swift */; };
+		629ED3DD2227056200581F5D /* CardPlayerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629ED3DC2227056200581F5D /* CardPlayerDelegate.swift */; };
+		629ED3DF222705E600581F5D /* TexasHoldemDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 629ED3DE222705E600581F5D /* TexasHoldemDelegate.swift */; };
 		62CDA1E321E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CDA1E221E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift */; };
 		62CDA1E821E3DC2900E1E8F1 /* TexasHoldemSetup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CDA1E721E3DC2900E1E8F1 /* TexasHoldemSetup.swift */; };
 /* End PBXBuildFile section */
@@ -49,6 +52,9 @@
 		628E95F021CA32CA00A48E55 /* CardPlayer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CardPlayer.swift; sourceTree = "<group>"; };
 		628E95FB21CAA0CF00A48E55 /* PokerHandRankTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PokerHandRankTests.swift; sourceTree = "<group>"; };
 		628E95FD21CAA1ED00A48E55 /* PokerDealingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokerDealingTests.swift; sourceTree = "<group>"; };
+		629ED3DA2227048000581F5D /* CardGameDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardGameDelegate.swift; sourceTree = "<group>"; };
+		629ED3DC2227056200581F5D /* CardPlayerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardPlayerDelegate.swift; sourceTree = "<group>"; };
+		629ED3DE222705E600581F5D /* TexasHoldemDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexasHoldemDelegate.swift; sourceTree = "<group>"; };
 		62CDA1E221E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexasHoldemCardPlayer.swift; sourceTree = "<group>"; };
 		62CDA1E721E3DC2900E1E8F1 /* TexasHoldemSetup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TexasHoldemSetup.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -96,6 +102,7 @@
 				628E95E721CA32CA00A48E55 /* Card Games */,
 				628E95EF21CA32CA00A48E55 /* Card Player */,
 				628E95E421CA32CA00A48E55 /* Playing Card */,
+				628E95E521CA32CA00A48E55 /* Stack.swift */,
 				628E95CD21CA32A500A48E55 /* SGCardGameKit.h */,
 				628E95CE21CA32A500A48E55 /* Info.plist */,
 			);
@@ -115,7 +122,6 @@
 		628E95E421CA32CA00A48E55 /* Playing Card */ = {
 			isa = PBXGroup;
 			children = (
-				628E95E521CA32CA00A48E55 /* Stack.swift */,
 				628E95E621CA32CA00A48E55 /* PlayingCard.swift */,
 			);
 			path = "Playing Card";
@@ -125,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				628E95E821CA32CA00A48E55 /* CardGame.swift */,
+				629ED3DA2227048000581F5D /* CardGameDelegate.swift */,
 				628E95E921CA32CA00A48E55 /* Poker */,
 			);
 			path = "Card Games";
@@ -133,9 +140,7 @@
 		628E95E921CA32CA00A48E55 /* Poker */ = {
 			isa = PBXGroup;
 			children = (
-				628E95EA21CA32CA00A48E55 /* TexasHoldem.swift */,
-				62CDA1E721E3DC2900E1E8F1 /* TexasHoldemSetup.swift */,
-				62CDA1E221E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift */,
+				629ED3E02227060700581F5D /* Texas Holdem */,
 				628E95EB21CA32CA00A48E55 /* PokerHandRank */,
 			);
 			path = Poker;
@@ -155,8 +160,20 @@
 			isa = PBXGroup;
 			children = (
 				628E95F021CA32CA00A48E55 /* CardPlayer.swift */,
+				629ED3DC2227056200581F5D /* CardPlayerDelegate.swift */,
 			);
 			path = "Card Player";
+			sourceTree = "<group>";
+		};
+		629ED3E02227060700581F5D /* Texas Holdem */ = {
+			isa = PBXGroup;
+			children = (
+				628E95EA21CA32CA00A48E55 /* TexasHoldem.swift */,
+				629ED3DE222705E600581F5D /* TexasHoldemDelegate.swift */,
+				62CDA1E721E3DC2900E1E8F1 /* TexasHoldemSetup.swift */,
+				62CDA1E221E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift */,
+			);
+			path = "Texas Holdem";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -271,12 +288,15 @@
 				628E95F621CA32CA00A48E55 /* ValueMultiples.swift in Sources */,
 				628E95F821CA32CA00A48E55 /* CardPlayer.swift in Sources */,
 				628E95F121CA32CA00A48E55 /* Stack.swift in Sources */,
+				629ED3DB2227048000581F5D /* CardGameDelegate.swift in Sources */,
+				629ED3DD2227056200581F5D /* CardPlayerDelegate.swift in Sources */,
 				62CDA1E821E3DC2900E1E8F1 /* TexasHoldemSetup.swift in Sources */,
 				628E95F421CA32CA00A48E55 /* TexasHoldem.swift in Sources */,
 				628E95F721CA32CA00A48E55 /* NonValueMultiples.swift in Sources */,
 				628E95F521CA32CA00A48E55 /* PokerHandRank.swift in Sources */,
 				62CDA1E321E3AAF500E1E8F1 /* TexasHoldemCardPlayer.swift in Sources */,
 				628E95F321CA32CA00A48E55 /* CardGame.swift in Sources */,
+				629ED3DF222705E600581F5D /* TexasHoldemDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,14 +13,6 @@ class PokerDealingTests: XCTestCase {
 
     class TexasHoldemPokerGame: TexasHoldem, CardPlayerDelegate {
         
-        func cardPlayer(_ cardPlayer: CardPlayer, didReceive card: PlayingCard) {
-            
-        }
-        
-        func cardPlayer(_ cardPlayer: CardPlayer, cardWasRemovedFromHoleCards card: PlayingCard) {
-            
-        }
-        
         var dealerIndex: Int = 0
         var blinds: (small: UInt, big: UInt) = (1, 2)
         var ante: UInt = 0
@@ -29,6 +21,7 @@ class PokerDealingTests: XCTestCase {
         
         var deck: Stack<PlayingCard> = Stack<PlayingCard>()
         var community: [PlayingCard] = []
+        var burned: [PlayingCard] = []
         
         var delegate: TexasHoldemDelegate?
         
@@ -37,7 +30,7 @@ class PokerDealingTests: XCTestCase {
     class TexasHoldemPlayer: TexasHoldemCardPlayer {
         
         var status: CardPlayerHandStatus
-        var holeCards: Set<PlayingCard> = []
+        var holeCards: [PlayingCard] = []
         
         weak var delegate: CardPlayerDelegate?
         weak var game: CardGame?
@@ -121,7 +114,7 @@ extension PokerDealingTests {
                 try self.game.deal(round)
                 
                 XCTAssert(self.game.community.count == 3, "Community doesn't have 3 cards after dealing the flop.")
-                
+                XCTAssert(self.game.burned.count == 1)
             } catch let error {
                 XCTFail("\(error)")
             }
@@ -131,6 +124,7 @@ extension PokerDealingTests {
             do {
                 try self.game.deal(round)
                 XCTAssert(self.game.community.count == 4, "Community doesn't have 4 cards after dealing the turn")
+                XCTAssert(self.game.burned.count == 2)
             } catch let error {
                 XCTFail("\(error)")
             }
@@ -140,6 +134,7 @@ extension PokerDealingTests {
             do {
                 try self.game.deal(round)
                 XCTAssert(self.game.community.count == 5, "Community doesn't have 5 cards after dealing the river.")
+                XCTAssert(self.game.burned.count == 3)
             } catch let error {
                 XCTFail("\(error)")
             }

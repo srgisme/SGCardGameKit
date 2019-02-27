@@ -24,6 +24,8 @@ public struct Stack<T> {
         self.values.reserveCapacity(capacity)
     }
     
+    private init() { }
+    
     public mutating func pop() -> T? {
         return self.values.popLast()
     }
