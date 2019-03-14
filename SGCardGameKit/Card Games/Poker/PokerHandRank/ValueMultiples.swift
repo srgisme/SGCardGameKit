@@ -81,43 +81,13 @@ extension Collection where Element == PlayingCard {
     
     // MARK: - Refactored Methods
     
-    /// This method produces a Dictionary where the values are all arrays of cards containing at least another with the same card value, and the keys are the number of occurrences of each value in each array. Values with no multiples (counts of only 1) are ommitted from this dictionary.
+    /// This method produces a Dictionary where the values are all arrays of arrays of cards in which the cards are grouped by value and count, and the keys are the number of occurrences of each value in each array.
     ///
-    /// Example: if this method is called on [K♠︎, 5♣︎, 5♦︎, A♣︎, A♦︎, K♥︎, K♣︎], the return value would be [2: [[A♣︎, A♦︎], [5♣︎, 5♦︎]], 3: [[K♠︎, K♥︎, K♣︎]]].
+    /// Example: if this method is called on [K♠︎, 5♣︎, 5♦︎, A♣︎, 4♥︎, A♦︎, K♥︎, K♣︎], the return value would be [1: [[4♥︎]], 2: [[A♣︎, A♦︎], [5♣︎, 5♦︎]], 3: [[K♠︎, K♥︎, K♣︎]]].
     private func valueGroups() -> [Int : [[PlayingCard]]] {
         
-        let sortedCards = self.sorted(by: >)
-        
-        var valueGroups: [Int : [[PlayingCard]]] = [:]
-        
-        var currentCards: [PlayingCard] = []
-        
-        for card in sortedCards {
-            
-            guard let currentValue = currentCards.last?.value else {
-                currentCards.append(card)
-                continue
-            }
-            
-            if card.value == currentValue {
-                currentCards.append(card)
-            } else if currentCards.count > 1 {
-                valueGroups[currentCards.count] = valueGroups[currentCards.count, default: []] + [currentCards]
-                currentCards = [card]
-            } else {
-                currentCards = [card]
-            }
-            
-        }
-        
-        if currentCards.count > 1 {
-            
-            valueGroups[currentCards.count] = valueGroups[currentCards.count, default: []] + [currentCards]
-            currentCards = []
-            
-        }
-        
-        return valueGroups
+        let groupedByMultiples = Dictionary(grouping: self) { $0.value }.values
+        return Dictionary(grouping: groupedByMultiples, by: { $0.count })
         
     }
     
