@@ -12,7 +12,7 @@ extension Collection where Element == PlayingCard {
     
     /// This method produces the best 5-card poker hand limited to hands composed of only value multiples (pair, twoPair, threeOfaKind, fullHouse, fourOfaKind)
     ///
-    /// - Returns: an optional tuple containing the hand rank and cards making up the hand. If no multiples are found, this method returns nil.
+    /// - Returns: an optional PokerHandRank containing the hand rank and cards making up the hand. If no multiples are found, a hand containing multiples can not be made and this method returns nil.
     func handRankForValueMultiples() -> PokerHandRank? {
         
         guard self.count >= 5 else { return nil }
@@ -81,7 +81,7 @@ extension Collection where Element == PlayingCard {
     
     // MARK: - Refactored Methods
     
-    /// This method produces a Dictionary where the values are all arrays of arrays of cards in which the cards are grouped by value and count, and the keys are the number of occurrences of each value in each array.
+    /// This method produces a Dictionary where the values are 2D arrays of cards. The elements of each value array is an array of cards with the same card value, and the keys are the number of occurrences of each value in each array.
     ///
     /// Example: if this method is called on [K♠︎, 5♣︎, 5♦︎, A♣︎, 4♥︎, A♦︎, K♥︎, K♣︎], the return value would be [1: [[4♥︎]], 2: [[A♣︎, A♦︎], [5♣︎, 5♦︎]], 3: [[K♠︎, K♥︎, K♣︎]]].
     private func valueGroups() -> [Int : [[PlayingCard]]] {
