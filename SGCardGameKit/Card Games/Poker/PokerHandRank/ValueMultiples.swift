@@ -24,33 +24,41 @@ extension Collection where Element == PlayingCard {
             let kickers = self.kickers(forIncompleteMultiples: maxFourOfaKind)
             return .fourOfaKind(maxFourOfaKind + kickers)
             
+        }
+        
+        if var threeOfAKindsSorted = valueGroups[3]?.sorted(by: { $0[0].value < $1[0].value }), let pairs = valueGroups[2] {
+            
+            let maxThreeOfaKind = threeOfAKindsSorted.popLast()!
+            let maxRemainingAsPair = (threeOfAKindsSorted + pairs).max { $0[0].value < $1[0].value }!
+            return .fullHouse(maxThreeOfaKind + maxRemainingAsPair[0 ... 1])
+            
         } else if var threeOfAKindsSorted = valueGroups[3]?.sorted(by: { $0[0].value < $1[0].value }) {
             
             let maxThreeOfaKind = threeOfAKindsSorted.popLast()!
             
-            guard let pairsSorted = valueGroups[2]?.sorted(by: { $0[0].value < $1[0].value }) else {
+            guard let maxRemainingAsPair = threeOfAKindsSorted.last else {
+                
                 let kickers = self.kickers(forIncompleteMultiples: maxThreeOfaKind)
                 return .threeOfaKind(maxThreeOfaKind + kickers)
+                
             }
             
-            let maxRemainingAsPair = (threeOfAKindsSorted + pairsSorted).max { $0[0].value < $1[0].value }!
             return .fullHouse(maxThreeOfaKind + maxRemainingAsPair[0 ... 1])
             
-        } else if let pairs = valueGroups[2] {
+        } else if var pairsSorted = valueGroups[2]?.sorted(by: { $0[0].value < $1[0].value }) {
             
-            if pairs.count > 1 {
+            let maxPair = pairsSorted.popLast()!
+            
+            guard let remainingPair = pairsSorted.popLast() else {
                 
-                let sortedPairs = pairs.sorted { $0[0].value < $1[0].value }
-                let hand = sortedPairs[0] + sortedPairs[1]
-                let kickers = self.kickers(forIncompleteMultiples: hand)
-                return .twoPair(hand + kickers)
-                
-            } else {
-                
-                let kickers = self.kickers(forIncompleteMultiples: pairs[0])
-                return .pair(pairs[0] + kickers)
+                let kickers = self.kickers(forIncompleteMultiples: maxPair)
+                return .pair(maxPair + kickers)
                 
             }
+            
+            let hand = maxPair + remainingPair
+            let kickers = self.kickers(forIncompleteMultiples: hand)
+            return .twoPair(hand + kickers)
             
         }
         
