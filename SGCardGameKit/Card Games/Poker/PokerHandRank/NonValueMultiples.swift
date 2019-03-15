@@ -52,13 +52,8 @@ extension Collection where Element == PlayingCard {
         switch handRank {
         case .flush(_):
             
-            var suitDict: [PlayingCard.Suit : [PlayingCard]] = [:]
-            
-            let sortedCards = self.sorted(by: >)
-            
-            sortedCards.forEach({ suitDict[$0.suit] = suitDict[$0.suit, default: []] + [$0] })
-            
-            let flushes = suitDict.values.filter({ $0.count >= 5 })
+            let suitsDict = Dictionary(grouping: self.sorted(by: >)) { $0.suit }
+            let flushes = suitsDict.values.filter({ $0.count >= 5 })
             
             return flushes.isEmpty ? nil : flushes
             
