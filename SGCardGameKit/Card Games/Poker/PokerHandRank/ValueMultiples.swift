@@ -43,7 +43,7 @@ extension Collection where Element == PlayingCard {
                     continue
                 }
                 
-                if multiples[0].value.rawValue > maxPair[0].value.rawValue {
+                if multiples[0].value > maxPair[0].value {
                     maxPair = [multiples[0], multiples[1]]
                 }
                 

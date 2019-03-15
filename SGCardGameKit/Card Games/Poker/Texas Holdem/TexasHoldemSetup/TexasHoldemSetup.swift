@@ -58,12 +58,12 @@ extension TexasHoldemSetup {
             player.holeCards.append(newHoleCard)
             player.delegate?.cardPlayer(player, didReceive: newHoleCard)
             
-            guard let highestCardValue = self.players[currentDealerIndex].holeCards.first?.value.rawValue else {
+            guard let highestCardValue = self.players[currentDealerIndex].holeCards.first?.value else {
                 currentDealerIndex = i
                 return
             }
             
-            if newHoleCard.value.rawValue > highestCardValue {
+            if newHoleCard.value > highestCardValue {
                 currentDealerIndex = i
             }
             

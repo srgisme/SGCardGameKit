@@ -95,9 +95,9 @@ extension PokerHandRank: Comparable {
         
         for i in 0 ..< leftCards.count {
             
-            if leftCards[i].value.rawValue < rightCards[i].value.rawValue {
+            if leftCards[i].value < rightCards[i].value {
                 return true
-            } else if leftCards[i].value.rawValue > rightCards[i].value.rawValue {
+            } else if leftCards[i].value > rightCards[i].value {
                 return false
             }
             

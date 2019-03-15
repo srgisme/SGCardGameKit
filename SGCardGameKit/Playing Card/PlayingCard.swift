@@ -76,6 +76,14 @@ extension PlayingCard.Value: CustomStringConvertible {
     
 }
 
+extension PlayingCard.Value: Comparable {
+    
+    public static func < (lhs: PlayingCard.Value, rhs: PlayingCard.Value) -> Bool {
+        return lhs.rawValue < rhs.rawValue
+    }
+    
+}
+
 extension Stack where T == PlayingCard {
     
     public init() {

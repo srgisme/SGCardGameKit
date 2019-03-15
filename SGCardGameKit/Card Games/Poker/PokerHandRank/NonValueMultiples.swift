@@ -24,7 +24,7 @@ extension Collection where Element == PlayingCard {
                     continue
                 }
                 
-                return flush1[i].value.rawValue < flush2[i].value.rawValue
+                return flush1[i].value < flush2[i].value
                 
             }
             
@@ -130,7 +130,7 @@ extension Collection where Element == PlayingCard {
                     
                     while i < straight.count && j < flush.count {
                         
-                        if straight[i].value.rawValue > flush[j].value.rawValue {
+                        if straight[i].value > flush[j].value {
                             
                             if currentStraightFlush.count >= 5 && (currentStraightFlush.last?.value != straight[i].value) {
                                 straightFlushes.append(currentStraightFlush)
@@ -139,7 +139,7 @@ extension Collection where Element == PlayingCard {
                             
                             i += 1
                             
-                        } else if straight[i].value.rawValue < flush[j].value.rawValue {
+                        } else if straight[i].value < flush[j].value {
                             
                             if currentStraightFlush.count >= 5 && (currentStraightFlush.last?.value != straight[i].value) {
                                 straightFlushes.append(currentStraightFlush)
