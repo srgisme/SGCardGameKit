@@ -8,8 +8,78 @@
 
 import Foundation
 
-public enum PokerHandRank: CustomStringConvertible, Comparable {
+public enum PokerHandRank {
+    
+    case highCard([PlayingCard])
+    case pair([PlayingCard])
+    case twoPair([PlayingCard])
+    case threeOfaKind([PlayingCard])
+    case straight([PlayingCard])
+    case flush([PlayingCard])
+    case fullHouse([PlayingCard])
+    case fourOfaKind([PlayingCard])
+    case straightFlush([PlayingCard])
+    case royalFlush([PlayingCard])
+    
+}
+
+extension PokerHandRank: CustomStringConvertible {
+    
+    public var description: String {
         
+        switch self {
+        case .highCard: return "High Card"
+        case .pair: return "Pair"
+        case .twoPair: return "Two Pair"
+        case .threeOfaKind: return "Three of a Kind"
+        case .straight: return "Straight"
+        case .flush: return "Flush"
+        case .fullHouse: return "Full House"
+        case .fourOfaKind: return "Four of a Kind"
+        case .straightFlush: return "Straight Flush"
+        case .royalFlush: return "Royal Flush"
+        }
+        
+    }
+    
+}
+
+extension PokerHandRank: Comparable {
+    
+    var value: Int {
+        
+        switch self {
+        case .highCard: return 1
+        case .pair: return 2
+        case .twoPair: return 3
+        case .threeOfaKind: return 4
+        case .straight: return 5
+        case .flush: return 6
+        case .fullHouse: return 7
+        case .fourOfaKind: return 8
+        case .straightFlush: return 9
+        case .royalFlush: return 10
+        }
+        
+    }
+    
+    var cards: [PlayingCard] {
+        
+        switch self {
+        case .highCard(let cards): return cards
+        case .pair(let cards): return cards
+        case .twoPair(let cards): return cards
+        case .threeOfaKind(let cards): return cards
+        case .straight(let cards): return cards
+        case .flush(let cards): return cards
+        case .fullHouse(let cards): return cards
+        case .fourOfaKind(let cards): return cards
+        case .straightFlush(let cards): return cards
+        case .royalFlush(let cards): return cards
+        }
+        
+    }
+    
     public static func < (lhs: PokerHandRank, rhs: PokerHandRank) -> Bool {
         
         guard lhs.value == rhs.value else {
@@ -44,59 +114,6 @@ public enum PokerHandRank: CustomStringConvertible, Comparable {
         }
         
         return lhs.cards == rhs.cards
-        
-    }
-    
-    case highCard([PlayingCard]), pair([PlayingCard]), twoPair([PlayingCard]), threeOfaKind([PlayingCard]), straight([PlayingCard]), flush([PlayingCard]), fullHouse([PlayingCard]), fourOfaKind([PlayingCard]), straightFlush([PlayingCard]), royalFlush([PlayingCard])
-    
-    public var cards: [PlayingCard] {
-        
-        switch self {
-        case .highCard(let cards): return cards
-        case .pair(let cards): return cards
-        case .twoPair(let cards): return cards
-        case .threeOfaKind(let cards): return cards
-        case .straight(let cards): return cards
-        case .flush(let cards): return cards
-        case .fullHouse(let cards): return cards
-        case .fourOfaKind(let cards): return cards
-        case .straightFlush(let cards): return cards
-        case .royalFlush(let cards): return cards
-        }
-        
-    }
-    
-    public var description: String {
-        
-        switch self {
-        case .highCard: return "High Card"
-        case .pair: return "Pair"
-        case .twoPair: return "Two Pair"
-        case .threeOfaKind: return "Three of a Kind"
-        case .straight: return "Straight"
-        case .flush: return "Flush"
-        case .fullHouse: return "Full House"
-        case .fourOfaKind: return "Four of a Kind"
-        case .straightFlush: return "Straight Flush"
-        case .royalFlush: return "Royal Flush"
-        }
-        
-    }
-    
-    var value: Int {
-        
-        switch self {
-        case .highCard: return 1
-        case .pair: return 2
-        case .twoPair: return 3
-        case .threeOfaKind: return 4
-        case .straight: return 5
-        case .flush: return 6
-        case .fullHouse: return 7
-        case .fourOfaKind: return 8
-        case .straightFlush: return 9
-        case .royalFlush: return 10
-        }
         
     }
     
