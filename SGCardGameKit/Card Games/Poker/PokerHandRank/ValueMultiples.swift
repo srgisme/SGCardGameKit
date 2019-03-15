@@ -19,50 +19,29 @@ extension Collection where Element == PlayingCard {
         
         let valueGroups = self.valueGroups()
         
-        if let maxFourOfaKind = valueGroups[4]?.first {
+        if let maxFourOfaKind = valueGroups[4]?.max(by: { $0[0].value < $1[0].value }) {
             
             let kickers = self.kickers(forIncompleteMultiples: maxFourOfaKind)
             return .fourOfaKind(maxFourOfaKind + kickers)
             
-        } else if let threeOfAKind = valueGroups[3] {
+        } else if var threeOfAKindsSorted = valueGroups[3]?.sorted(by: { $0[0].value < $1[0].value }) {
             
-            let maxThreeOfaKind = threeOfAKind[0]
+            let maxThreeOfaKind = threeOfAKindsSorted.popLast()!
             
-            let hand: [PlayingCard] = maxThreeOfaKind
-            
-            var maxPair: [PlayingCard] = []
-            
-            for multiples in (threeOfAKind + (valueGroups[2] ?? [])) {
-                
-                guard multiples[0].value != maxThreeOfaKind[0].value else {
-                    continue
-                }
-                
-                guard !maxPair.isEmpty else {
-                    maxPair = [multiples[0], multiples[1]]
-                    continue
-                }
-                
-                if multiples[0].value > maxPair[0].value {
-                    maxPair = [multiples[0], multiples[1]]
-                }
-                
+            guard let pairsSorted = valueGroups[2]?.sorted(by: { $0[0].value < $1[0].value }) else {
+                let kickers = self.kickers(forIncompleteMultiples: maxThreeOfaKind)
+                return .threeOfaKind(maxThreeOfaKind + kickers)
             }
             
-            guard !maxPair.isEmpty else {
-                
-                let kickers = self.kickers(forIncompleteMultiples: hand)
-                return .threeOfaKind(hand + kickers)
-                
-            }
-            
-            return .fullHouse(hand + maxPair)
+            let maxRemainingAsPair = (threeOfAKindsSorted + pairsSorted).max { $0[0].value < $1[0].value }!
+            return .fullHouse(maxThreeOfaKind + maxRemainingAsPair[0 ... 1])
             
         } else if let pairs = valueGroups[2] {
             
             if pairs.count > 1 {
                 
-                let hand = pairs[0] + pairs[1]
+                let sortedPairs = pairs.sorted { $0[0].value < $1[0].value }
+                let hand = sortedPairs[0] + sortedPairs[1]
                 let kickers = self.kickers(forIncompleteMultiples: hand)
                 return .twoPair(hand + kickers)
                 

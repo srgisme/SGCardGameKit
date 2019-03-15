@@ -28,11 +28,8 @@ public struct PlayingCard: Hashable {
         
     }
     
-    public enum Suit: String {
-        case clubs = "♣︎"
-        case diamonds = "♦︎"
-        case hearts = "♥︎"
-        case spades = "♠︎"
+    public enum Suit {
+        case clubs, diamonds, hearts, spades
     }
     
     public let suit: Suit
@@ -43,7 +40,7 @@ public struct PlayingCard: Hashable {
 extension PlayingCard: CustomStringConvertible {
     
     public var description: String {
-        return "\(value)\(suit.rawValue)"
+        return "\(value)\(suit)"
     }
     
 }
@@ -51,7 +48,7 @@ extension PlayingCard: CustomStringConvertible {
 extension PlayingCard: Comparable, Equatable {
     
     public static func < (lhs: PlayingCard, rhs: PlayingCard) -> Bool {
-        return lhs.value.rawValue < rhs.value.rawValue
+        return lhs.value < rhs.value
     }
     
     public static func == (lhs: PlayingCard, rhs: PlayingCard) -> Bool {
@@ -80,6 +77,21 @@ extension PlayingCard.Value: Comparable {
     
     public static func < (lhs: PlayingCard.Value, rhs: PlayingCard.Value) -> Bool {
         return lhs.rawValue < rhs.rawValue
+    }
+    
+}
+
+extension PlayingCard.Suit: CustomStringConvertible {
+    
+    public var description: String {
+        
+        switch self {
+        case .clubs: return "♣︎"
+        case .diamonds: return "♦︎"
+        case .hearts: return "♥︎"
+        case .spades: return "♠︎"
+        }
+        
     }
     
 }
